@@ -1,5 +1,7 @@
 import pytest
+
 from main import BooksCollector
+
 
 class TestBooksCollector:
     @pytest.fixture(autouse=True)
@@ -26,9 +28,9 @@ class TestBooksCollector:
 
     # напиши свои тесты ниже
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
-    def test_add_new_book_add_name_of_book_13_simbols(self):
-        self.collector.add_new_book('Дом в котором')
-        assert self.books_genre['Дом в котором']=={'Дом в котором':''}
+    @pytest.mark.parametrize('name',['Д','До','Дом в котором'])
+    def test_add_new_book_add_name_of_book_more_than_0_simbols(name):
+        assert self.collector.add_new_book(name)
     def test_add_new_book_add_one_book_twise_false(self):
         self.collector.add_new_book('Дом в котором')
         self.collector.add_new_book('Дом в котором')
@@ -82,6 +84,8 @@ class TestBooksCollector:
         self.collector.add_book_in_favorites('Кошмар на улице Вязов')
         self.collector.get_list_of_favorites_books()
         assert self.collector.get_list_of_favorites_books==self.favorites
+
+
 
 
 

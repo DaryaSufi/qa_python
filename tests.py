@@ -1,8 +1,13 @@
+import pytest
 from main import BooksCollector
-123
-# класс TestBooksCollector объединяет набор тестов, которыми мы покрываем наше приложение BooksCollector
-# обязательно указывать префикс Test
+
 class TestBooksCollector:
+
+    @pytest.fixture(autouse=True)
+    def collector(self):
+        self.collector=BooksCollector()
+        return self.collector
+
 
     # пример теста:
     # обязательно указывать префикс test_
@@ -22,3 +27,57 @@ class TestBooksCollector:
 
     # напиши свои тесты ниже
     # чтобы тесты были независимыми в каждом из них создавай отдельный экземпляр класса BooksCollector()
+    def test_add_new_book_add_name_of_book_13_simbols(self):
+        self.collector.add_new_book('Дом в котором')
+        assert self.books_genre['Дом в котором']=={'Дом в котором':''}
+    def test_add_new_book_add_one_book_twise_false(self):
+        self.collector.add_new_book('Дом в котором')
+        self.collector.add_new_book('Дом в котором')
+        assert len(self.books_genre)==1
+    def test_set_book_genre_true(self):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
+        assert self.books_genre['Сердце Пармы'] == {'Сердце Пармы':'Фантастика'}
+    def test_get_book_genre_true(self):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
+        assert self.collector.get_book_genre('Сердце Пармы')=='Фантастика'
+    def test_get_books_with_specific_genre_true(self):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
+        self.collector.get_books_with_specific_genre('Фантастика')
+        assert 'Сердце Пармы' in self.books_with_specific_genre
+    def test_get_books_with_specific_genre_false(self):
+        self.collector.add_new_book('Влипсики')
+        self.collector.set_book_genre('Влипсики', 'Фэнтези')
+        self.collector.get_books_with_specific_genre('Фэнтези')
+        assert len(self.books_with_specific_genre)==0
+    def test_get_books_genre(self):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
+        assert self.books_genre == {'Сердце Пармы':'Фантастика'}
+    def test_get_books_for_children(self):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
+        self.collector.add_new_book('Кошмар на улице Вязов')
+        self.collector.set_book_genre('Кошмар на улице Вязов', 'Ужасы')
+        self.collector.add_new_book('Убийство в Восточном экспрессе')
+        self.collector.set_book_genre('Убийство в Восточном экспрессе', 'Детективы')
+        self.collector.add_new_book('Моана')
+        self.collector.set_book_genre('Моана', 'Мультфильмы')
+        assert self.books_for_children == ['Сердце Пармы', 'Моана']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

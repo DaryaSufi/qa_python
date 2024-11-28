@@ -1,1 +1,9 @@
+test_add_new_book_add_two_books
+test_add_new_book_add_name_of_book_13_simbols
+test_add_new_book_add_one_book_twise_false
+test_set_book_genre_true
+test_get_book_genre_true
+test_get_books_with_specific_genre_true
+test_get_books_with_specific_genre_false
+test_get_books_genre
 # qa_python

@@ -2,7 +2,6 @@ import pytest
 from main import BooksCollector
 
 class TestBooksCollector:
-
     @pytest.fixture(autouse=True)
     def collector(self):
         self.collector=BooksCollector()
@@ -52,11 +51,11 @@ class TestBooksCollector:
         self.collector.set_book_genre('Влипсики', 'Фэнтези')
         self.collector.get_books_with_specific_genre('Фэнтези')
         assert len(self.books_with_specific_genre)==0
-    def test_get_books_genre(self):
+    def test_get_books_genre_true(self):
         self.collector.add_new_book('Сердце Пармы')
         self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
         assert self.books_genre == {'Сердце Пармы':'Фантастика'}
-    def test_get_books_for_children(self):
+    def test_get_books_for_children_true(self):
         self.collector.add_new_book('Сердце Пармы')
         self.collector.set_book_genre('Сердце Пармы', 'Фантастика')
         self.collector.add_new_book('Кошмар на улице Вязов')
@@ -65,7 +64,30 @@ class TestBooksCollector:
         self.collector.set_book_genre('Убийство в Восточном экспрессе', 'Детективы')
         self.collector.add_new_book('Моана')
         self.collector.set_book_genre('Моана', 'Мультфильмы')
+        self.collector.get_books_for_children()
         assert self.books_for_children == ['Сердце Пармы', 'Моана']
+    def test_add_book_in_favorites_true(self, name):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.add_book_in_favorites('Сердце Пармы')
+        assert self.favorites == ['Сердце Пармы']
+    def test_delete_book_from_favorites_true(self,name):
+        self.collector.add_new_book('Кошмар на улице Вязов')
+        self.collector.add_book_in_favorites('Кошмар на улице Вязов')
+        self.collector.delete_book_from_favorites('Кошмар на улице Вязов')
+        assert self.favorites == []
+    def test_get_list_of_favorites_books_true(self):
+        self.collector.add_new_book('Сердце Пармы')
+        self.collector.add_book_in_favorites('Сердце Пармы')
+        self.collector.add_new_book('Кошмар на улице Вязов')
+        self.collector.add_book_in_favorites('Кошмар на улице Вязов')
+        self.collector.get_list_of_favorites_books()
+        assert self.collector.get_list_of_favorites_books==self.favorites
+
+
+
+
+
+
 
 
 

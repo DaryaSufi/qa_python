@@ -1,4 +1,3 @@
-test_add_new_book_add_two_books
 test_add_new_book_add_name_of_book_13_simbols
 test_add_new_book_add_one_book_twise_false
 test_set_book_genre_true

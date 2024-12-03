@@ -83,10 +83,22 @@ class TestBooksCollector:
         collector.get_list_of_favorites_books()
         assert collector.get_list_of_favorites_books() == ['Сердце Пармы', 'Кошмар на улице Вязов']
 
-    @pytest.mark.parametrize('name','Сердце Пармы', 'Кошмар на улице Вязов')
-    def test_get_books_genre(name):
-       collector = BooksCollector()
-       collector.add_new_book(name)
-       collector.get_books_genre()
-       assert collector.get_books_genre(name) == ['Сердце Пармы', 'Кошмар на улице Вязов']
+    @pytest.fixture
+    def books_collector(self):
+        collector = BooksCollector()
+        collector.add_new_book('Сердце Пармы')
+        collector.set_book_genre('Сердце Пармы', 'Фантастика')
+        collector.add_book_in_favorites('Сердце Пармы')
+
+        collector.add_new_book('Кошмар на улице Вязов')
+        collector.set_book_genre('Кошмар на улице Вязов', 'Ужасы')
+        collector.add_book_in_favorites('Кошмар на улице Вязов')
+
+        return collector
+
+    @pytest.mark.parametrize("name", ['Сердце Пармы', 'Кошмар на улице Вязов'])
+    def test_get_list_of_favorites_books_true(books_collector, name):
+        collector = books_collector
+        collector.get_list_of_favorites_books()
+        assert collector.get_list_of_favorites_books() == [name]
 

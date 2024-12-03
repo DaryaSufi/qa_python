@@ -4,16 +4,17 @@ from main import BooksCollector
 
 class TestBooksCollector:
 
-    @pytest.mark.parametrize('name', ['Д', 'До', 'Дом в котором'])
-    def test_add_new_book_add_name_of_book_more_than_0_simbols(self, name):
+    def test_add_new_book_add_name_of_book_more_than_0_simbols(self):
         collector = BooksCollector()
-        assert collector.add_new_book(name)
+        collector.add_new_book('Дом в котором')
+        collector.get_books_genre()
+        assert len(collector.get_books_genre()) == 1
 
     def test_add_new_book_add_one_book_twise_false(self):
         collector = BooksCollector()
         collector.add_new_book('Дом в котором')
         collector.add_new_book('Дом в котором')
-        assert collector.get_books_genre() == ['Дом в котором']
+        assert collector.get_books_genre() == {'Дом в котором': ''}
 
     def test_set_book_genre_true(self):
         collector = BooksCollector()
@@ -81,3 +82,11 @@ class TestBooksCollector:
         collector.add_book_in_favorites('Кошмар на улице Вязов')
         collector.get_list_of_favorites_books()
         assert collector.get_list_of_favorites_books() == ['Сердце Пармы', 'Кошмар на улице Вязов']
+
+    @pytest.mark.parametrize('name','Сердце Пармы', 'Кошмар на улице Вязов')
+    def test_get_books_genre(name):
+       collector = BooksCollector()
+       collector.add_new_book(name)
+       collector.get_books_genre()
+       assert collector.get_books_genre(name) == ['Сердце Пармы', 'Кошмар на улице Вязов']
+
